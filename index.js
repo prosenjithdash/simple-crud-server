@@ -33,6 +33,20 @@ async function run() {
     const database = client.db("usersDB");
     const userCollection = database.collection("users");
       
+      
+      // Read data step - 01 => users.jsx (ui side)
+      // Read data step - 02 => users.jsx (ui side)
+      // Read data step - 03 get user data from database
+        app.get('/users', async(req, res) => {
+            const cursor = userCollection.find()
+            const result = await cursor.toArray();
+            res.send(result);
+        })
+        // Read data step - 04 show display from database data (ui side)
+
+
+
+
       //// create data on server step - 02 post api
       //// step - 03 client side with fetch, method , headers, body
     // post api
