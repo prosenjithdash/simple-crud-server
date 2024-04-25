@@ -42,7 +42,17 @@ async function run() {
             const result = await cursor.toArray();
             res.send(result);
         })
-        // Read data step - 04 show display from database data (ui side)
+      // Read data step - 04 show display from database data (ui side)
+      
+      // Update data step - 04 (index.js server side)
+    // Update data step - 05 (update.jsx ui side)
+    app.get('/users/:id', async(req, res) => {
+        const id = req.params.id;
+        const query = { _id: new ObjectId(id) };
+        const user = await userCollection.findOne(query)
+        res.send(user);
+
+        })
 
 
 
@@ -56,6 +66,33 @@ async function run() {
           const result = await userCollection.insertOne(user);
           res.send(result);
       });
+
+      // Update data step - 07 (index.js server side)
+    // Update data step - 08 (update.jsx ui side)
+
+        app.put('/users/:id', async(req, res) => {
+        const id = req.params.id;
+            const user = req.body;
+            console.log(id, user)
+
+           // Update data step - 09 (index.js server side)
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+           
+             const updatedUser = {
+                $set: {
+                     name: user.name,
+                    email: user.email
+                 },
+                 
+             };
+            const result = await userCollection.updateOne(filter, updatedUser, options);
+            res.send(result);
+
+
+
+
+        })
 
       ////Delete data step - 3  (index.js server side)
       app.delete('/users/:id', async (req, res) => {
