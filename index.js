@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 
 const app = express()
 const port = process.env.PORT || 2000
@@ -56,6 +56,21 @@ async function run() {
           const result = await userCollection.insertOne(user);
           res.send(result);
       });
+
+      ////Delete data step - 3  (index.js server side)
+      app.delete('/users/:id', async (req, res) => {
+          const id = req.params.id;
+          console.log('Please delete id from database', id)
+          const query = { _id: new ObjectId(id) };
+          const result = await userCollection.deleteOne(query);
+          res.send(result)
+
+
+      })
+
+    ////Delete data step - 4  (users.jsx ui side)
+
+
       
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
